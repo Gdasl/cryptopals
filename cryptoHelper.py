@@ -11,14 +11,28 @@ def ready(fi):
 def htb(s):
     return s.decode("hex").encode("base64")
 
+def isECB(s):
+    biggo = []
+    flag = 0
+    i = 16
+    biggo.append(breakblock(s,i))
+    for j in biggo:
+        combos = itertools.combinations(j,2)
+        for k in combos:
+                if k[0] == k[1]:
+                        flag = 1
+    if flag:
+        print "Probably ECB"
+    else:
+        print ":("
+                     
 def xor(a,b):
     s = ''
-    a_ = a.decode('hex')
+    a_ = checkhex(a)
     
     if len(a) == len(b):
-        b_ = b.decode('hex')
+        b_ = checkhex(b)
         for i,j in zip(a_,b_):
-            print i,j
             s += chr(ord(i)^ord(j))
         
     
